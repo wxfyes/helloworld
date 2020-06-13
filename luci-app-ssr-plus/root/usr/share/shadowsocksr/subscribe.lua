@@ -266,13 +266,13 @@ local function processData(szType, content)
 			result.alias = "NULL"
 		end
 	end
-	-- alias 不参与 hashkey 计算
-	local alias = result.alias
-	result.alias = nil
+	-- switch_enable 不参与 hashkey 计算
+	-- local alias = result.alias
+	-- result.alias = nil
 	local switch_enable = result.switch_enable
 	result.switch_enable = nil
 	result.hashkey = md5(jsonStringify(result))
-	result.alias = alias
+	-- result.alias = alias
 	result.switch_enable = switch_enable
 	return result
 end
