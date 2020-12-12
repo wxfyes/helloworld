@@ -404,6 +404,7 @@ o = s:option(Flag, "xtls", translate("XTLS"))
 o.rmempty = true
 o.default = "0"
 o:depends({type="vless",transport="tcp",tls=false})
+o:depends("type", "trojan")
 end
 
 -- Flow

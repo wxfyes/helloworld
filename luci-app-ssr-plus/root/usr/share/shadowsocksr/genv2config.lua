@@ -38,7 +38,7 @@ inboundDetour = (proto == "tcp" and socks_port ~= "0") and {
 outbound = {
 	protocol = server.type,
 	settings = {
-		vnext = {
+		vnext = (server.type ~= "trojan") and {
 			{
 				address = server.server,
 				port = tonumber(server.server_port),
@@ -48,11 +48,19 @@ outbound = {
 						alterId = (server.type == "vmess") and tonumber(server.alter_id) or nil,
 						security = (server.type == "vmess") and server.security or nil,
 						encryption = (server.type == "vless") and server.vless_encryption or nil,
-						flow = (server.xtls == '1') and (server.vless_flow and server.vless_flow or "xtls-rprx-splice") or nil,
+						flow = (server.xtls == '1') and (server.vless_flow and server.vless_flow or "xtls-rprx-splice") or nil
 					}
 				}
 			}
-		}
+		},
+		servers = (server.type == "trojan") and {
+			{
+				address = server.server,
+				password = server.password,
+				port = tonumber(server.server_port),
+				flow = (server.xtls == '1') and (server.vless_flow and server.vless_flow or "xtls-rprx-splice") or nil
+			}
+		} or nil
 	},
 -- 底层传输配置
 	streamSettings = {
